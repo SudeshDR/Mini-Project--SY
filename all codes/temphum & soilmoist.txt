@@ -1,0 +1,30 @@
+#include <SoftwareSerial.h>
+SoftwareSerial bt(8, 9); // RX, TX
+#include "dht.h"
+#define dataPin A0
+dht DHT;
+int temp;
+int hum;
+const int sensor_pin = A1;  /* Soil moisture sensor O/P pin */
+int sensor_analog;
+void setup() {
+ Serial.begin(9600); 
+ bt.begin(9600); 
+ Serial.println("Ready");
+}
+void loop(){
+  int readData = DHT.read11(dataPin);
+  hum = DHT.humidity;
+  temp = DHT.temperature;
+
+ sensor_analog = analogRead(sensor_pin);
+ Serial.print(sensor_analog);
+
+ bt.print(temp); //send distance to MIT App
+ bt.print(";");
+ bt.print(hum); //send distance to MIT App 
+ bt.println(";");
+ bt.print(sensor_analog);
+
+  delay(1000);
+}

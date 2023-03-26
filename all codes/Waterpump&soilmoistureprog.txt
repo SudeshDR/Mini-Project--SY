@@ -1,0 +1,35 @@
+#include <SoftwareSerial.h>
+SoftwareSerial bt(8, 9); 
+#include "dht.h"
+#define dataPin A0
+int water; 
+const int sensor_pin = A1; 
+int sensor_analog;
+void setup() {
+
+ pinMode(3,OUTPUT); //output pin for relay board, this will sent signal to the relay
+ pinMode(6,INPUT); //input pin coming from soil sensor
+ Serial.begin(9600); 
+ bt.begin(9600); 
+ Serial.println("Ready");
+
+
+}
+
+void loop(){
+  
+ sensor_analog = analogRead(sensor_pin);
+ Serial.print(sensor_analog);
+ bt.print(sensor_analog);
+
+water = digitalRead(6);  // reading the coming signal from the soil sensor
+  if(water == HIGH) // if water level is full then cut the relay 
+  {
+  digitalWrite(3,LOW); // low is to cut the relay
+  }
+  else
+  {
+  digitalWrite(3,HIGH); //high to continue proving signal and water supply
+  }
+  delay(1000);
+}

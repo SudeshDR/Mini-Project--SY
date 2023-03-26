@@ -1,0 +1,18 @@
+#include <SoftwareSerial.h>
+SoftwareSerial bt(8, 9); // RX, TX
+#include "dht.h"
+dht DHT;
+const int sensor_pin = A1;  /* Soil moisture sensor O/P pin */
+int sensor_analog;
+void setup() {
+ Serial.begin(9600); 
+ bt.begin(9600); 
+ Serial.println("Ready");
+}
+void loop(){
+ sensor_analog = analogRead(sensor_pin);
+ Serial.print(sensor_analog);
+ bt.print(sensor_analog);
+  delay(1000);
+}
+
